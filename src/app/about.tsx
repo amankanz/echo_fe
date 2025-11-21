@@ -2,12 +2,12 @@
 import { Link } from "expo-router";
 import { View, Text } from "react-native";
 
-export default function HomeScreen() {
+export default function AboutScreen() {
   return (
     <View>
-      <Text>Hello, Nuru here!</Text>
+      <Text>AboutScreen</Text>
       <Text>Welcome, on the Native Echo!</Text>
-      <Link href="about">Go AboutScreen</Link>
+      <Link href="/">Go HomeScreen</Link>
     </View>
   );
 }
