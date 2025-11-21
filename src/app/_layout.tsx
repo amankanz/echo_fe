@@ -7,7 +7,10 @@ const queryClient = new QueryClient();
 export default function RouteLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack />;
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+      </Stack>
+      ;
     </QueryClientProvider>
   );
 }
