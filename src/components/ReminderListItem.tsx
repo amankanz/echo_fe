@@ -5,7 +5,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useMutation } from "@tanstack/react-query";
 import { completeReminder } from "@/services/remindersService";
-// import { MaterialCommunityIcons, AntDesign } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 interface ReminderItemProps {
   reminderItem: ReminderItem;
@@ -16,22 +16,24 @@ export default function ReminderListItem({ reminderItem }: ReminderItemProps) {
     reminderItem.completed
   );
 
-  // const { mutate: completedTask } = useMutation({
-  //   mutationFn: (isReminderCompleted: boolean) =>
-  //     completeReminder(reminderItem.id, isReminderCompleted),
+  const { mutate: completedTask } = useMutation({
+    mutationFn: (isReminderCompleted: boolean) =>
+      completeReminder(reminderItem.id, isReminderCompleted),
 
-  //   onSuccess: () => {},
+    onSuccess: (data) => {
+      setIsCompleted(data.completed);
+    },
 
-  //   onError: (error) => {
-  //     Alert.alert("Error", error.message);
-  //   },
-  // });
+    onError: (error) => {
+      Alert.alert("Error", error.message);
+    },
+  });
 
   return (
     <TouchableOpacity
       onPress={() => {
         console.log("Pressed!");
-        // completedTask(isCompleted);
+        completedTask(isCompleted);
       }}
       style={{
         flexDirection: "row",
@@ -63,24 +65,24 @@ export default function ReminderListItem({ reminderItem }: ReminderItemProps) {
         <Text style={{ fontSize: 16 }}>{reminderItem.reminder}</Text>
 
         {/* Double Negation */}
-        {/* {!!reminderItem.notes && (
-          <Text style={{ fontSize: 12, color: "gray" }}>
-            {reminderItem.notes || "No notes available!"}
-          </Text>
-        )} */}
-
         <Text style={{ fontSize: 14, color: "gray" }}>
           {reminderItem.notes || "No notes available!"}
         </Text>
       </View>
 
-      <AntDesign
-        name="infocirlceo"
-        size={17}
-        color="#FF8C00"
-        style={{ marginLeft: "auto", marginRight: 10, alignSelf: "flex-start" }}
-        onPress={() => console.log("Navigate to edit")}
-      />
+      <Link href={`createUpdateReminder/?id=${reminderItem.id}`} asChild>
+        <AntDesign
+          name="infocirlceo"
+          size={17}
+          color="#FF8C00"
+          style={{
+            marginLeft: "auto",
+            marginRight: 10,
+            alignSelf: "flex-start",
+          }}
+          onPress={() => console.log("Navigate to edit")}
+        />
+      </Link>
     </TouchableOpacity>
   );
 }

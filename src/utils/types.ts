@@ -16,5 +16,5 @@ export type InsertReminder = {
 
 export type UpdateReminder = {
   reminder?: string;
-  notes?: string;
+  notes?: string | null;
 };
